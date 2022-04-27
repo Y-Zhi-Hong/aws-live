@@ -21,9 +21,25 @@ output = {}
 table = 'employee'
 
 
+
+
 @app.route("/", methods=['GET', 'POST'])
 def dashboard():
+    data= "zhihong"
+    print(data)
     return render_template('index.html')
+
+@app.route("/addEmployee", methods=['GET', 'POST'])
+def addEmployee():
+    return render_template('addEmployee.html')
+
+
+@app.route("/addEmp", methods=['GET', 'POST'])
+def addEmp():
+    return render_template('AddEmp.html')
+
+
+
 
 
 @app.route("/about", methods=['POST'])

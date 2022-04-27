@@ -1,0 +1,162 @@
+{% extends "header.html" %}
+{%block title%} Add Employee {%endblock%}
+{%block content%}
+<div class="col-md-12 col-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Add New Employee</h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+                <form class="form form-horizontal">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>First Name: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" name="firstName"
+                                            placeholder="First Name">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-person"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Last Name: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" name="lastName" placeholder="Last Name">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-person"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Gender: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <select class="form-control" name="gender" id="gender">
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                        <div class="form-control-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gender-ambiguous" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M11.5 1a.5.5 0 0 1 0-1h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-3.45 3.45A4 4 0 0 1 8.5 10.97V13H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V14H6a.5.5 0 0 1 0-1h1.5v-2.03a4 4 0 1 1 3.471-6.648L14.293 1H11.5zm-.997 4.346a3 3 0 1 0-5.006 3.309 3 3 0 0 0 5.006-3.31z"/>
+                                              </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Date Of Birth: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input type="date" class="form-control" name="dateOfBirth">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-calendar-date"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Identity Card Number: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" name="identityCardNumber"
+                                            placeholder="020508-10-1234">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-card-text"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Email: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input type="email" class="form-control" placeholder="Email"
+                                            id="first-name-icon">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-envelope"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Mobile: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input type="number" class="form-control" placeholder="Mobile">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-phone"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Address: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" name="address"
+                                            placeholder="Address">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-house-door"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Image: </label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group has-icon-left">
+                                    <div class="position-relative">
+                                        <input type="file" class="form-control" name="image"
+                                            placeholder="Image">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-person-bounding-box"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+
+                            <div class="col-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
