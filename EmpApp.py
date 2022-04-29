@@ -3,6 +3,7 @@ from pymysql import connections
 import os
 import boto3
 from config import *
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -62,7 +63,8 @@ def AddEmp():
     address = request.form['address']
     salary = request.form['salary']
     department = request.form['department']
-    hireDate = date.today()
+    hireDate = datetime.today().strftime('%Y-%m-%d')
+
     emp_image_file = request.files['image']
 
     insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
