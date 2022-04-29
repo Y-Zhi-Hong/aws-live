@@ -102,6 +102,7 @@ def AddEmp():
 
         except Exception as e:
             print("running expection")
+            print(e)
             return str(e)
 
     finally:
