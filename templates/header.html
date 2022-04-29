@@ -15,6 +15,8 @@
     <!-- <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css"> -->
     <link rel="stylesheet" href="{{ url_for('static',filename='assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/app.css')}}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon"> -->
 </head>
 
@@ -26,7 +28,7 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="/"><img src="{{ url_for('static',filename='assets/images/logo/logo.png') }}" alt="Logo" srcset=""></a>
+                            <a href="{{ url_for('dashboard')}}"><img src="{{ url_for('static',filename='assets/images/logo/logo.png') }}" alt="Logo" srcset=""></a>
                         </div>
                         <div class="toggler">
                             <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -50,13 +52,10 @@
                             </a>
                             <ul class="submenu ">
                                 <li class="submenu-item ">
-                                    <a href="/employee">Employee</a>
+                                    <a href="{{ url_for('employee') }}">Employee</a>
                                 </li>
                                 <li class="submenu-item ">
-                                    <a href="/addEmployee">Add Employee</a>
-                                </li>
-                                <li class="submenu-item ">
-                                    <a href="auth-forgot-password.html">Forgot Password</a>
+                                    <a href="{{ url_for('addEmployee') }}">Add Employee</a>
                                 </li>
                             </ul>
                         </li>
@@ -79,6 +78,8 @@
     <script src="{{ url_for('static',filename='assets/vendors/apexcharts/apexcharts.js')}}"></script>
     <script src="{{ url_for('static',filename='assets/js/pages/dashboard.js')}}"></script>
     <script src="{{ url_for('static',filename='assets/js/main.js')}}"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    
 </body>
 
 </html>

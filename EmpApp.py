@@ -29,8 +29,18 @@ def dashboard():
     return render_template('index.html')
 
 @app.route("/employee", methods=['GET', 'POST'])
-def allEmployee():
-    return render_template('employee.html')
+def employee():
+    select_sql = "SELECT * FROM employee"
+    cursor = db_conn.cursor()
+    cursor.execute(select_sql)
+    employeeData = cursor.fetchall()
+    print(employeeData)
+    return render_template('employee.html',employeeData=employeeData)
+
+@app.route('/viewEmployee/<employeeId>')
+def viewEmployee(employeeId):
+    return render_template('employeeDetail.html',employeeId=employeeId)
+    # You might want to return some sort of response...
 
 @app.route("/addEmployee", methods=['GET', 'POST'])
 def addEmployee():

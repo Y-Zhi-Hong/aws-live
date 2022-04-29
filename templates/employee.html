@@ -1,5 +1,39 @@
 {% extends "header.html" %}
 {%block title%} Employee {%endblock%}
 {%block content%}
-<p> display all employee </p>
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Department</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for employee in employeeData %}    
+        <tr>
+            <td>{{employee[0]}}</td>
+            <td>{{employee[1]+employee[2]}}</td>
+            <td>{{employee[3]}}</td>
+            <td>{{employee[6]}}</td>
+            <td>{{employee[7]}}</td>
+            <td>{{employee[10]}}</td>
+            <td><a href="{{url_for('viewEmployee',employeeId=employee[0])}}"> <button type="button" class="btn btn-primary">Edit</button></a>
+                <button type="button" class="btn btn-danger">Delete</button></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+$(document).ready( function () {
+    $('#table_id').DataTable();
+    console.log(1231231)
+});
+</Script>
+
 {%endblock%}
