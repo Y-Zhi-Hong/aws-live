@@ -28,7 +28,7 @@ def dashboard():
     return render_template('index.html')
 
 @app.route("/employee", methods=['GET', 'POST'])
-def addEmployee():
+def allEmployee():
     return render_template('employee.html')
 
 @app.route("/addEmployee", methods=['GET', 'POST'])
