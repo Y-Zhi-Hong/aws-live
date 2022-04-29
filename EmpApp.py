@@ -67,7 +67,7 @@ def AddEmp():
 
     emp_image_file = request.files['image']
 
-    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     cursor = db_conn.cursor()
 
     if emp_image_file.filename == "":
@@ -76,7 +76,8 @@ def AddEmp():
     try:
 
         cursor.execute(insert_sql, (employeeId, firstName, lastName, gender, dateOfBirth, 
-        identityCardNumber, email, mobile, address, salary, department, hireDate, emp_image_file))
+        identityCardNumber, email, mobile, address, salary, department, emp_image_file, hireDate))
+        # cursor.execute(insert_sql)
         db_conn.commit()
         emp_name = "" + firstName + " " + lastName
         # Uplaod image file in S3 #
