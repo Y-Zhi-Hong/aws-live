@@ -25,22 +25,24 @@ table = 'employee'
 
 @app.route("/", methods=['GET', 'POST'])
 def dashboard():
-    data= "zhihong"
-    print(data)
     return render_template('index.html')
+
+@app.route("/employee", methods=['GET', 'POST'])
+def addEmployee():
+    return render_template('employee.html')
 
 @app.route("/addEmployee", methods=['GET', 'POST'])
 def addEmployee():
     return render_template('addEmployee.html')
 
 
+
+
+
+
 @app.route("/addEmp", methods=['GET', 'POST'])
 def addEmp():
     return render_template('AddEmp.html')
-
-
-
-
 
 @app.route("/about", methods=['POST'])
 def about():
@@ -49,14 +51,21 @@ def about():
 
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
-    emp_id = request.form['emp_id']
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    pri_skill = request.form['pri_skill']
-    location = request.form['location']
-    emp_image_file = request.files['emp_image_file']
+    employeeId = request.form['employeeId']
+    firstName = request.form['firstName']
+    lastName = request.form['lastName']
+    gender = request.form['gender']
+    dateOfBirth = request.form['dateOfBirth']
+    identityCardNumber = request.form['identityCardNumber']
+    email = request.form['email']
+    mobile = request.form['mobile']
+    address = request.form['address']
+    salary = request.form['salary']
+    department = request.form['department']
+    hireDate = date.today()
+    emp_image_file = request.files['image']
 
-    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
+    insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     cursor = db_conn.cursor()
 
     if emp_image_file.filename == "":
@@ -64,11 +73,12 @@ def AddEmp():
 
     try:
 
-        cursor.execute(insert_sql, (emp_id, first_name, last_name, pri_skill, location))
+        cursor.execute(insert_sql, (employeeId, firstName, lastName, gender, dateOfBirth, 
+        identityCardNumber, email, mobile, address, salary, department, hireDate, emp_image_file))
         db_conn.commit()
-        emp_name = "" + first_name + " " + last_name
+        emp_name = "" + firstName + " " + lastName
         # Uplaod image file in S3 #
-        emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+        emp_image_file_name_in_s3 = "emp-id-" + str(employeeId) + "_image_file"
         s3 = boto3.resource('s3')
 
         try:
@@ -94,7 +104,7 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('AddEmpOutput.html', name=emp_name)
+    return render_template('AddEmpOutput.html', name=emp_name, employeeId=employeeId)
 
 
 if __name__ == '__main__':
