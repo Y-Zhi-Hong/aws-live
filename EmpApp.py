@@ -101,9 +101,11 @@ def AddEmp():
                 emp_image_file_name_in_s3)
 
         except Exception as e:
+            print("running expection")
             return str(e)
 
     finally:
+        print("running finally")
         cursor.close()
 
     print("all modification done...")
