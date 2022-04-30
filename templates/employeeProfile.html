@@ -1,6 +1,9 @@
 {% extends "header.html" %}
 {%block title%} Employee Profile{%endblock%}
 {%block content%}
+<div>
+    <p style="color: blue;"><a style="color: blue;" href="{{ url_for('employee') }} ">Employee</a>-> Employee Profile</p>
+</div>
 <div class="col-md-12 col-12">
     <div class="card">
         <div class="card-header">
@@ -198,7 +201,8 @@
                         <div class="col-md-10">
                             <div class="form-group has-icon-left">
                                 <div class="position-relative">
-                                    <input type="date" class="form-control" name="hireDate"  value="{{employeeData[12]}}" required>
+                                    <input type="date" class="form-control" name="hireDate" value="{{employeeData[12]}}"
+                                        required>
                                     <div class="form-control-icon">
                                         <i class="bi bi-calendar-date"></i>
                                     </div>
@@ -222,8 +226,83 @@
                         </div>
                         <br>
                         <br>
+                        <div class="col-12 d-flex justify-content-end">
+                            <a href="{{url_for('editEmployee',employeeId=employeeData[0])}}"> <button type="button"
+                                    class="btn btn-primary">Edit</button></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        {%endblock%}
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Employee Payroll</h4>
+        </div>
+        <table id="payroll" class="display">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Date</th>
+                    <th>Basic Salary</th>
+                    <th>EPF</th>
+                    <th>Overtime Salary</th>
+                    <th>Overtime Hours</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payroll in employeePayroll %}
+                <tr>
+                    <td>{{payroll[1]}}</td>
+                    <td>{{payroll[2]}}</td>
+                    <td>{{payroll[3]}}</td>
+                    <td>{{payroll[4]}}</td>
+                    <td>{{payroll[5]}}</td>
+                    <td>{{payroll[6]}}</td>
+                    <td>{{payroll[7]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Employee Attendance</h4>
+        </div>
+        <table id="attendance" class="display">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                    <th>On Leave</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attendance in employeeAttendance %}
+                <tr>
+                    <td>{{attendance[1]}}</td>
+                    <td>{{attendance[2]}}</td>
+                    <td>{{attendance[3]}}</td>
+                    <td>{{attendance[4]}}</td>
+                    <td>{{attendance[5]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#payroll').DataTable();
+        $('#attendance').DataTable();
+    });
+</Script>
+{%endblock%}

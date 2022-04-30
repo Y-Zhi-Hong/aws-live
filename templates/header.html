@@ -39,13 +39,13 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
-                        <li class="sidebar-item  ">
+                        <li id="dashboard"class="sidebar-item  ">
                             <a href="/" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="sidebar-item  active has-sub">
+                        <li id="employee" class="sidebar-item   has-sub">
                             <a href="#" class='sidebar-link'>
 								<i class="bi bi-people-fill"></i>
                                 <span>Employee</span>
@@ -68,6 +68,11 @@
             </div>
         </div>
         <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
             {%block content%}
             {%endblock content%}
             
@@ -79,7 +84,19 @@
     <script src="{{ url_for('static',filename='assets/js/pages/dashboard.js')}}"></script>
     <script src="{{ url_for('static',filename='assets/js/main.js')}}"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    
+    <script>
+        $( document ).ready(function() {
+  
+          var pathname = window.location.pathname; // Returns path only (/path/example.html)
+  
+          if(pathname =="/"){
+              $("#dashboard").addClass('active');
+          }else{
+            $("#employee").addClass('active');
+          }
+        });
+        </script>
+        {%block js%}{%endblock%}
 </body>
 
 </html>

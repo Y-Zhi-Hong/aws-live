@@ -1,41 +1,113 @@
 {% extends "header.html" %}
 {%block title%} Employee {%endblock%}
 {%block content%}
-<table id="table_id" class="display">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Department</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for employee in employeeData %}    
-        <tr>
-            <td>{{employee[0]}}</td>
-            <td>{{employee[1]+employee[2]}}</td>
-            <td>{{employee[3]}}</td>
-            <td>{{employee[6]}}</td>
-            <td>{{employee[7]}}</td>
-            <td>{{employee[10]}}</td>
-            <td>  <a href="{{url_for('viewEmployee',employeeId=employee[0])}}"><button type="button" class="btn btn-success">View</button></a>
-                <a href="{{url_for('editEmployee',employeeId=employee[0])}}"> <button type="button" class="btn btn-primary">Edit</button></a>
-                <a href="{{url_for('deleteEmployee',employeeId=employee[0])}}"><button type="button" class="btn btn-danger">Delete</button></a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div>
+    <p style="color: blue;"><a style="color: blue;" href="{{ url_for('employee') }} ">Employee</a></p>
+</div>
+<br>
+<div class="col-md-12 col-12">
+    <div class="row">
+        <div class="col-6 col-lg-4 col-md-6">
+            <div class="card">
+                <div class="card-body px-3 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stats-icon purple">
+                                <i class="iconly-boldShow"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h6 class="text-muted font-semibold">Total Employee</h6>
+                            <h6 class="font-extrabold mb-0">{{ totalEmployee[0] }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-4 col-md-6">
+            <div class="card">
+                <div class="card-body px-3 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stats-icon green">
+                                <i class="iconly-boldProfile"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h6 class="text-muted font-semibold">Male</h6>
+                            <h6 class="font-extrabold mb-0">{{ totalMale[0] }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-4 col-md-6">
+            <div class="card">
+                <div class="card-body px-3 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stats-icon blue">
+                                <i class="iconly-boldAdd-User"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h6 class="text-muted font-semibold">Female</h6>
+                            <h6 class="font-extrabold mb-0">{{ totalFemale[0] }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">All Employee</h4>
+        </div>
+        <table id="table_id" class="display">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employeeData %}
+                <tr>
+                    <td>{{employee[0]}}</td>
+                    <td>{{employee[1]+employee[2]}}</td>
+                    <td>{{employee[3]}}</td>
+                    <td>{{employee[6]}}</td>
+                    <td>{{employee[7]}}</td>
+                    <td>{{employee[10]}}</td>
+                    <td> <a href="{{url_for('viewEmployee',employeeId=employee[0])}}"><button type="button"
+                                class="btn btn-success">View</button></a>
+                        <a href="{{url_for('editEmployee',employeeId=employee[0])}}"> <button type="button"
+                                class="btn btn-primary">Edit</button></a>
+                        <a href="{{url_for('deleteEmployee',employeeId=employee[0])}}" onclick=" return confirm('Are you sure you want to delete this Employee id={{ employee[0] }}?');"><button type="button"
+                                class="btn btn-danger">Delete</button></a>
+
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
 <script>
-$(document).ready( function () {
-    $('#table_id').DataTable();
-    console.log(1231231)
-});
+    $(document).ready(function () {
+        $('#table_id').DataTable();
+
+    });
 </Script>
 
 {%endblock%}

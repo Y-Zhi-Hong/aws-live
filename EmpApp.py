@@ -26,23 +26,72 @@ table = 'employee'
 
 @app.route("/", methods=['GET', 'POST'])
 def dashboard():
-    return render_template('index.html')
+    todayDate= datetime.today().strftime('%Y-%m-%d')
+
+    coutAllEmployee="SELECT COUNT(*) FROM employee"
+    countTodayCheckInEmployee ="SELECT count(*) FROM attendance WHERE date=%s AND check_in IS NOT NULL"
+    countTodayCheckOutEmployee ="SELECT count(*) FROM attendance WHERE date=%s AND check_out IS NOT NULL"
+    countTodayOnLeaveEmployee ="SELECT count(*) FROM attendance WHERE date=%s AND on_leave IS NOT NULL"
+    countMale="SELECT COUNT(*) FROM employee WHERE gender='Male'"
+    countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
+    cursor = db_conn.cursor()
+    cursor.execute(coutAllEmployee)
+    totalEmployee = cursor.fetchone()
+    cursor.execute(countTodayCheckInEmployee,todayDate)
+    totalEmployeeCheckIn = cursor.fetchone()
+    cursor.execute(countTodayCheckOutEmployee,todayDate)
+    totalEmployeeCheckOut = cursor.fetchone()
+    cursor.execute(countTodayOnLeaveEmployee,todayDate)
+    totalEmployeeOnLeave = cursor.fetchone()
+    cursor.execute(countMale)
+    totalMale = cursor.fetchone()
+    cursor.execute(countFemale)
+    totalFemale = cursor.fetchone()
+    db_conn.commit()
+    cursor.close()
+
+    return render_template('index.html',totalEmployee=totalEmployee,totalEmployeeCheckIn=totalEmployeeCheckIn,
+    totalEmployeeCheckOut=totalEmployeeCheckOut,totalEmployeeOnLeave=totalEmployeeOnLeave,todayDate=todayDate,
+    totalMale=totalMale,totalFemale=totalFemale)
 
 @app.route("/employee", methods=['GET', 'POST'])
 def employee():
-    select_sql = "SELECT * FROM employee"
+    getAllEmployee = "SELECT * FROM employee"
+    coutAllEmployee="SELECT COUNT(*) FROM employee"
+    countMale="SELECT COUNT(*) FROM employee WHERE gender='Male'"
+    countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
     cursor = db_conn.cursor()
-    cursor.execute(select_sql)
+    cursor.execute(getAllEmployee)
     employeeData = cursor.fetchall()
-    return render_template('employee.html',employeeData=employeeData)
+    cursor.execute(coutAllEmployee)
+    totalEmployee = cursor.fetchone()
+    cursor.execute(countMale)
+    totalMale = cursor.fetchone()
+    cursor.execute(countFemale)
+    totalFemale = cursor.fetchone()
+    db_conn.commit()
+    cursor.close()
+    return render_template('employee.html',employeeData=employeeData,totalEmployee=totalEmployee,totalMale=totalMale,totalFemale=totalFemale)
 
 @app.route('/viewEmployee/<employeeId>')
 def viewEmployee(employeeId):
     getEmployeeSql = "SELECT * FROM employee where id= %s"
+    getEmployeePayrollSql="SELECT * FROM payroll WHERE employee_id=%s"
+    getEmployeeAttendanceSql="SELECT * FROM attendance WHERE employee_id=%s"
     cursor = db_conn.cursor()
     cursor.execute(getEmployeeSql,(employeeId))
     employeeData = cursor.fetchone()
-    return render_template('employeeProfile.html',employeeData=employeeData)
+    cursor.execute(getEmployeePayrollSql,(employeeId))
+    employeePayroll = cursor.fetchall()
+    cursor.execute(getEmployeeAttendanceSql,(employeeId))
+    employeeAttendance = cursor.fetchall()
+    db_conn.commit()
+    cursor.close()
+    return render_template('employeeProfile.html',employeeData=employeeData,employeePayroll=employeePayroll,employeeAttendance=employeeAttendance)
+
+@app.route("/addEmployee", methods=['GET', 'POST'])
+def addEmployee():
+    return render_template('addEmployee.html')
 
 @app.route('/editEmployee/<employeeId>', methods=['GET', 'POST'])
 def editEmployee(employeeId):
@@ -50,34 +99,23 @@ def editEmployee(employeeId):
     cursor = db_conn.cursor()
     cursor.execute(getEmployeeSql,(employeeId))
     employeeData = cursor.fetchone()
-    print(employeeData)
+    db_conn.commit()
+    cursor.close()
     return render_template('editEmployee.html',employeeData=employeeData)
 
 @app.route('/deleteEmployee/<employeeId>', methods=['GET', 'POST'])
 def deleteEmployee(employeeId):
-    getEmployeeSql = "SELECT * FROM employee where id= %s"
+    deleteEmployeeSql = "DELETE FROM employee where id= %s"
     cursor = db_conn.cursor()
-    cursor.execute(getEmployeeSql,(employeeId))
-    employeeData = cursor.fetchone()
-    print(employeeData)
-    return render_template('deleteEmployee.html',employeeData=employeeData)
-
-@app.route("/addEmployee", methods=['GET', 'POST'])
-def addEmployee():
-    return render_template('addEmployee.html')
+    cursor.execute(deleteEmployeeSql,(employeeId))
+    db_conn.commit()
+    cursor.close()
+    return render_template('deleteEmployee.html',employeeId=employeeId)
 
 
 
 
 
-
-@app.route("/addEmp", methods=['GET', 'POST'])
-def addEmp():
-    return render_template('AddEmp.html')
-
-@app.route("/about", methods=['POST'])
-def about():
-    return render_template('www.intellipaat.com')
 
 
 @app.route("/addemp", methods=['POST'])
