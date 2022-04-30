@@ -22,8 +22,10 @@
             <td>{{employee[6]}}</td>
             <td>{{employee[7]}}</td>
             <td>{{employee[10]}}</td>
-            <td><a href="{{url_for('viewEmployee',employeeId=employee[0])}}"> <button type="button" class="btn btn-primary">Edit</button></a>
-                <button type="button" class="btn btn-danger">Delete</button></td>
+            <td>  <a href="{{url_for('viewEmployee',employeeId=employee[0])}}"><button type="button" class="btn btn-success">View</button></a>
+                <a href="{{url_for('editEmployee',employeeId=employee[0])}}"> <button type="button" class="btn btn-primary">Edit</button></a>
+                <a href="{{url_for('deleteEmployee',employeeId=employee[0])}}"><button type="button" class="btn btn-danger">Delete</button></a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

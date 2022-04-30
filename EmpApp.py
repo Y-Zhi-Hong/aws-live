@@ -34,13 +34,33 @@ def employee():
     cursor = db_conn.cursor()
     cursor.execute(select_sql)
     employeeData = cursor.fetchall()
-    print(employeeData)
     return render_template('employee.html',employeeData=employeeData)
 
 @app.route('/viewEmployee/<employeeId>')
 def viewEmployee(employeeId):
-    return render_template('employeeDetail.html',employeeId=employeeId)
-    # You might want to return some sort of response...
+    getEmployeeSql = "SELECT * FROM employee where id= %s"
+    cursor = db_conn.cursor()
+    cursor.execute(getEmployeeSql,(employeeId))
+    employeeData = cursor.fetchone()
+    return render_template('employeeProfile.html',employeeData=employeeData)
+
+@app.route('/editEmployee/<employeeId>', methods=['GET', 'POST'])
+def editEmployee(employeeId):
+    getEmployeeSql = "SELECT * FROM employee where id= %s"
+    cursor = db_conn.cursor()
+    cursor.execute(getEmployeeSql,(employeeId))
+    employeeData = cursor.fetchone()
+    print(employeeData)
+    return render_template('editEmployee.html',employeeData=employeeData)
+
+@app.route('/deleteEmployee/<employeeId>', methods=['GET', 'POST'])
+def deleteEmployee(employeeId):
+    getEmployeeSql = "SELECT * FROM employee where id= %s"
+    cursor = db_conn.cursor()
+    cursor.execute(getEmployeeSql,(employeeId))
+    employeeData = cursor.fetchone()
+    print(employeeData)
+    return render_template('deleteEmployee.html',employeeData=employeeData)
 
 @app.route("/addEmployee", methods=['GET', 'POST'])
 def addEmployee():
