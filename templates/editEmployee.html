@@ -11,7 +11,7 @@
         </div>
         <div class="card-content">
             <div class="card-body">
-                <form action="#" autocomplete="on" method = "POST" enctype="multipart/form-data" class="form form-horizontal">
+                <form action="/editEmp" autocomplete="on" method = "POST" enctype="multipart/form-data" class="form form-horizontal">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-2">
@@ -215,10 +215,13 @@
                                 <div class="form-group has-icon-left">
                                     <div class="position-relative">
                                         <input type="file" class="form-control" name="image"
-                                            placeholder="Image" required>
+                                            id="image" placeholder="Image" >
                                         <div class="form-control-icon">
                                             <i class="bi bi-person-bounding-box"></i>
                                         </div>
+                                    </div>
+                                    <div id="previewProfilePicture">
+                                        <img id="blah" src="{{ employeeData[11] }}" width="150px"height="150px">
                                     </div>
                                 </div>
                             </div>
@@ -226,7 +229,7 @@
                             <br>
                             <br>
                             <br>
-
+                            <input type="hidden" name="currentEmployeeId" value="{{ employeeData[0] }}" >
                             <div class="col-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                             </div>
@@ -237,4 +240,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    image.onchange = evt => {
+        const [file] = image.files
+        if (file) {
+            $("#previewProfilePicture").empty();
+            $("#previewProfilePicture").append(`<img id="blah" src="${URL.createObjectURL(file)}" width="150px"height="150px"/>`)
+        }
+    }
+</script>
 {%endblock%}

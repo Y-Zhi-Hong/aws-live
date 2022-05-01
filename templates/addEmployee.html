@@ -198,11 +198,14 @@
                             <div class="col-md-10">
                                 <div class="form-group has-icon-left">
                                     <div class="position-relative">
-                                        <input type="file" class="form-control" name="image"
+                                        <input type="file" class="form-control" id="image"name="image"
                                             placeholder="Image" required>
                                         <div class="form-control-icon">
                                             <i class="bi bi-person-bounding-box"></i>
                                         </div>
+                                    </div>
+                                    <div id="previewProfilePicture">
+
                                     </div>
                                 </div>
                             </div>
@@ -220,4 +223,13 @@
         </div>
     </div>
 </div>
+<script>
+    image.onchange = evt => {
+        const [file] = image.files
+        if (file) {
+            $("#previewProfilePicture").empty();
+            $("#previewProfilePicture").append(`<img id="blah" src="${URL.createObjectURL(file)}" width="150px"height="150px"/>`)
+        }
+    }
+</script>
 {%endblock%}
