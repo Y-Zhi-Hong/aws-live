@@ -10,14 +10,26 @@ app = Flask(__name__)
 bucket = custombucket
 region = customregion
 
-db_conn = connections.Connection(
-    host=customhost,
-    port=3306,
-    user=customuser,
-    password=custompass,
-    db=customdb
 
-)
+
+def create_connection():
+    return connections.Connection(
+        host=customhost,
+        port=3306,
+        user=customuser,
+        password=custompass,
+        db=customdb
+    )
+
+
+# db_conn = connections.Connection(
+#     host=customhost,
+#     port=3306,
+#     user=customuser,
+#     password=custompass,
+#     db=customdb
+
+# )
 output = {}
 table = 'employee'
 
@@ -26,6 +38,7 @@ table = 'employee'
 
 @app.route("/", methods=['GET', 'POST'])
 def dashboard():
+    connection = create_connection()
     todayDate= datetime.today().strftime('%Y-%m-%d')
 
     coutAllEmployee="SELECT COUNT(*) FROM employee"
@@ -36,7 +49,7 @@ def dashboard():
     countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
 
 # try:
-    cursor = db_conn.cursor()
+    cursor = connection.cursor()
     cursor.execute(coutAllEmployee)
     totalEmployee = cursor.fetchone()
     cursor.execute(countTodayCheckInEmployee,todayDate)
@@ -49,11 +62,11 @@ def dashboard():
     totalMale = cursor.fetchone()
     cursor.execute(countFemale)
     totalFemale = cursor.fetchone()
-    db_conn.commit()
+    # db_conn.commit()
 # except:
 #     return str("Something went wrong")
 # finally:
-    cursor.close()
+    connection.close()
 
     return render_template('index.html',totalEmployee=totalEmployee,totalEmployeeCheckIn=totalEmployeeCheckIn,
     totalEmployeeCheckOut=totalEmployeeCheckOut,totalEmployeeOnLeave=totalEmployeeOnLeave,todayDate=todayDate,
@@ -61,11 +74,13 @@ def dashboard():
 
 @app.route("/employee", methods=['GET', 'POST'])
 def employee():
+
+    connection = create_connection()
     getAllEmployee = "SELECT * FROM employee"
     coutAllEmployee="SELECT COUNT(*) FROM employee"
     countMale="SELECT COUNT(*) FROM employee WHERE gender='Male'"
     countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
-    cursor = db_conn.cursor()
+    cursor = connection.cursor()
 
 # try:
     cursor.execute(getAllEmployee)
@@ -76,19 +91,20 @@ def employee():
     totalMale = cursor.fetchone()
     cursor.execute(countFemale)
     totalFemale = cursor.fetchone()
-    db_conn.commit()
+    # db_conn.commit()
 # except:
 #     return str("Something went wrong")
 # finally:
-    cursor.close()
+    connection.close()
     return render_template('employee.html',employeeData=employeeData,totalEmployee=totalEmployee,totalMale=totalMale,totalFemale=totalFemale)
 
 @app.route('/viewEmployee/<employeeId>')
 def viewEmployee(employeeId):
+    connection = create_connection()
     getEmployeeSql = "SELECT * FROM employee where id= %s"
     getEmployeePayrollSql="SELECT * FROM payroll WHERE employee_id=%s"
     getEmployeeAttendanceSql="SELECT * FROM attendance WHERE employee_id=%s"
-    cursor = db_conn.cursor()
+    cursor = connection.cursor()
 
 # try:
     cursor.execute(getEmployeeSql,(employeeId))
@@ -97,12 +113,12 @@ def viewEmployee(employeeId):
     employeePayroll = cursor.fetchall()
     cursor.execute(getEmployeeAttendanceSql,(employeeId))
     employeeAttendance = cursor.fetchall()
-    db_conn.commit()
+    # db_conn.commit()
 # except:
 #     return str("Something went wrong")
 # finally:
     
-    cursor.close()
+    connection.close()
     return render_template('employeeProfile.html',employeeData=employeeData,employeePayroll=employeePayroll,employeeAttendance=employeeAttendance)
 
 @app.route("/addEmployee", methods=['GET', 'POST'])
@@ -111,30 +127,32 @@ def addEmployee():
 
 @app.route('/editEmployee/<employeeId>', methods=['GET', 'POST'])
 def editEmployee(employeeId):
+    connection = create_connection()
     getEmployeeSql = "SELECT * FROM employee where id= %s"
-    cursor = db_conn.cursor()
+    cursor = connection.cursor()
 # try:
     cursor.execute(getEmployeeSql,(employeeId))
     employeeData = cursor.fetchone()
-    db_conn.commit()
+    # db_conn.commit()
 # except:
 #     return str("Something went wrong")        
 # finally:
-    cursor.close()
+    connection.close()
 
     return render_template('editEmployee.html',employeeData=employeeData)
 
 @app.route('/deleteEmployee/<employeeId>', methods=['GET', 'POST'])
 def deleteEmployee(employeeId):
+    connection = create_connection()
     deleteEmployeeSql = "DELETE FROM employee where id= %s"
-    cursor = db_conn.cursor()
+    cursor = connection.cursor()
 # try:
     cursor.execute(deleteEmployeeSql,(employeeId))
-    db_conn.commit()
+    # db_conn.commit()
 # except:
 #     return str("Something went wrong")
 # finally:
-    cursor.close()
+    connection.close()
     return render_template('deleteEmployee.html',employeeId=employeeId)
 
 
@@ -145,6 +163,7 @@ def deleteEmployee(employeeId):
 
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
+    connection = create_connection()
     employeeId = request.form['employeeId']
     firstName = request.form['firstName']
     lastName = request.form['lastName']
@@ -163,7 +182,7 @@ def AddEmp():
     split_tup = os.path.splitext(emp_image_file.filename)
     file_extension = split_tup[1]
     insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    cursor = db_conn.cursor()
+    cursor = connection.cursor()
 
     if emp_image_file.filename == "":
         return "Please select a file"
@@ -173,7 +192,7 @@ def AddEmp():
         cursor.execute(insert_sql, (employeeId, firstName, lastName, gender, dateOfBirth, 
         identityCardNumber, email, mobile, address, salary, department, emp_image_file, hireDate))
         # cursor.execute(insert_sql)
-        db_conn.commit()
+        # db_conn.commit()
         emp_name = "" + firstName + " " + lastName
         # Uplaod image file in S3 #
         emp_image_file_name_in_s3 = "emp-id-" + str(employeeId) + "_image_file"+file_extension
@@ -195,9 +214,9 @@ def AddEmp():
                 custombucket,
                 emp_image_file_name_in_s3)
             update_sql = "UPDATE employee set image = %s WHERE id=%s"
-            cursor = db_conn.cursor()
+            cursor = connection.cursor()
             cursor.execute(update_sql, (object_url,employeeId))
-            db_conn.commit()
+            # db_conn.commit()
 
 
         except Exception as e:
@@ -208,13 +227,14 @@ def AddEmp():
     finally:
         print("running finally")
         
-        cursor.close()
+        connection.close()
 
     print("all modification done...")
     return render_template('AddEmpOutput.html', name=emp_name, employeeId=employeeId)
 
 @app.route("/editEmp", methods=['POST'])
 def editEmp():
+    connection = create_connection()
     employeeId = request.form['employeeId']
     firstName = request.form['firstName']
     lastName = request.form['lastName']
@@ -236,26 +256,26 @@ def editEmp():
 
     if emp_image_file.filename == "":
         updateEmployeeSql = "UPDATE employee set id= %s,first_name= %s,last_name= %s,gender= %s,date_of_birth= %s,identity_card_number= %s,email= %s,mobile= %s,address= %s,salary= %s,department= %s,hire_date= %s WHERE id=%s"
-        cursor = db_conn.cursor()
+        cursor = connection.cursor()
         
         try:
             cursor.execute(updateEmployeeSql, (employeeId, firstName, lastName, gender, dateOfBirth,identityCardNumber, email, mobile, address, salary, department, hireDate,currentEmployeeId))
             emp_name = "" + firstName + " " + lastName
-            db_conn.commit()
+            # db_conn.commit()
         finally:
-            cursor.close()
+            connection.close()
         return render_template('editEmpOutput.html', name=emp_name, employeeId=employeeId)
 
     else:
         updateEmployeeSql = "UPDATE employee set id= %s,first_name= %s,last_name= %s,gender= %s,date_of_birth= %s,identity_card_number= %s,email= %s,mobile= %s,address= %s,salary= %s,department= %s,image= %s,hire_date= %s WHERE id=%s"
-        cursor = db_conn.cursor()
+        cursor = connection.cursor()
 
 
     try:
         cursor.execute(updateEmployeeSql, (employeeId, firstName, lastName, gender, dateOfBirth, 
         identityCardNumber, email, mobile, address, salary, department, emp_image_file, hireDate,currentEmployeeId))
         # cursor.execute(insert_sql)
-        db_conn.commit()
+        # db_conn.commit()
         emp_name = "" + firstName + " " + lastName
         # Uplaod image file in S3 #
         emp_image_file_name_in_s3 = "emp-id-" + str(employeeId) + "_image_file"+ file_extension
@@ -277,9 +297,9 @@ def editEmp():
                 custombucket,
                 emp_image_file_name_in_s3)
             update_sql = "UPDATE employee set image = %s WHERE id=%s"
-            cursor = db_conn.cursor()
+            cursor = connection.cursor()
             cursor.execute(update_sql, (object_url,employeeId))
-            db_conn.commit()
+            # db_conn.commit()
 
 
         except Exception as e:
@@ -290,7 +310,7 @@ def editEmp():
     finally:
         print("running finally")
         
-        cursor.close()
+        connection.close()
 
     print("all modification done...")
     return render_template('editEmpOutput.html', name=emp_name, employeeId=employeeId)
