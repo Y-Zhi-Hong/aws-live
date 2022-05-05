@@ -34,8 +34,9 @@ def dashboard():
     countTodayOnLeaveEmployee ="SELECT count(*) FROM attendance WHERE date=%s AND on_leave IS NOT NULL"
     countMale="SELECT COUNT(*) FROM employee WHERE gender='Male'"
     countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
+    cursor = db_conn.cursor()
+
     try:
-        cursor = db_conn.cursor()
         cursor.execute(coutAllEmployee)
         totalEmployee = cursor.fetchone()
         cursor.execute(countTodayCheckInEmployee,todayDate)
@@ -62,8 +63,9 @@ def employee():
     coutAllEmployee="SELECT COUNT(*) FROM employee"
     countMale="SELECT COUNT(*) FROM employee WHERE gender='Male'"
     countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
+    cursor = db_conn.cursor()
+
     try:
-        cursor = db_conn.cursor()
         cursor.execute(getAllEmployee)
         employeeData = cursor.fetchall()
         cursor.execute(coutAllEmployee)
@@ -82,8 +84,9 @@ def viewEmployee(employeeId):
     getEmployeeSql = "SELECT * FROM employee where id= %s"
     getEmployeePayrollSql="SELECT * FROM payroll WHERE employee_id=%s"
     getEmployeeAttendanceSql="SELECT * FROM attendance WHERE employee_id=%s"
+    cursor = db_conn.cursor()
+
     try:
-        cursor = db_conn.cursor()
         cursor.execute(getEmployeeSql,(employeeId))
         employeeData = cursor.fetchone()
         cursor.execute(getEmployeePayrollSql,(employeeId))
@@ -104,8 +107,8 @@ def addEmployee():
 @app.route('/editEmployee/<employeeId>', methods=['GET', 'POST'])
 def editEmployee(employeeId):
     getEmployeeSql = "SELECT * FROM employee where id= %s"
+    cursor = db_conn.cursor()
     try:
-        cursor = db_conn.cursor()
         cursor.execute(getEmployeeSql,(employeeId))
         employeeData = cursor.fetchone()
         db_conn.commit()
@@ -117,8 +120,8 @@ def editEmployee(employeeId):
 @app.route('/deleteEmployee/<employeeId>', methods=['GET', 'POST'])
 def deleteEmployee(employeeId):
     deleteEmployeeSql = "DELETE FROM employee where id= %s"
+    cursor = db_conn.cursor()
     try:
-        cursor = db_conn.cursor()
         cursor.execute(deleteEmployeeSql,(employeeId))
         db_conn.commit()
     finally:
@@ -224,8 +227,9 @@ def editEmp():
 
     if emp_image_file.filename == "":
         updateEmployeeSql = "UPDATE employee set id= %s,first_name= %s,last_name= %s,gender= %s,date_of_birth= %s,identity_card_number= %s,email= %s,mobile= %s,address= %s,salary= %s,department= %s,hire_date= %s WHERE id=%s"
+        cursor = db_conn.cursor()
+        
         try:
-            cursor = db_conn.cursor()
             cursor.execute(updateEmployeeSql, (employeeId, firstName, lastName, gender, dateOfBirth,identityCardNumber, email, mobile, address, salary, department, hireDate,currentEmployeeId))
             emp_name = "" + firstName + " " + lastName
             db_conn.commit()
