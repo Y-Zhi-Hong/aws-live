@@ -50,6 +50,8 @@ def dashboard():
         cursor.execute(countFemale)
         totalFemale = cursor.fetchone()
         db_conn.commit()
+    except:
+        print("Something went wrong")
     finally:
         cursor.close()
 
@@ -75,6 +77,8 @@ def employee():
         cursor.execute(countFemale)
         totalFemale = cursor.fetchone()
         db_conn.commit()
+    except:
+        print("Something went wrong")
     finally:
         cursor.close()
     return render_template('employee.html',employeeData=employeeData,totalEmployee=totalEmployee,totalMale=totalMale,totalFemale=totalFemale)
@@ -94,7 +98,8 @@ def viewEmployee(employeeId):
         cursor.execute(getEmployeeAttendanceSql,(employeeId))
         employeeAttendance = cursor.fetchall()
         db_conn.commit()
-
+    except:
+        print("Something went wrong")
     finally:
         
         cursor.close()
@@ -112,6 +117,8 @@ def editEmployee(employeeId):
         cursor.execute(getEmployeeSql,(employeeId))
         employeeData = cursor.fetchone()
         db_conn.commit()
+    except:
+        print("Something went wrong")        
     finally:
         cursor.close()
 
@@ -124,6 +131,8 @@ def deleteEmployee(employeeId):
     try:
         cursor.execute(deleteEmployeeSql,(employeeId))
         db_conn.commit()
+    except:
+        print("Something went wrong")
     finally:
         cursor.close()
     return render_template('deleteEmployee.html',employeeId=employeeId)
