@@ -49,10 +49,7 @@ def dashboard():
         cursor.execute(countFemale)
         totalFemale = cursor.fetchone()
         db_conn.commit()
-    except Exception as e:
-        return str(e)
     finally:
-        
         cursor.close()
 
     return render_template('index.html',totalEmployee=totalEmployee,totalEmployeeCheckIn=totalEmployeeCheckIn,
@@ -76,10 +73,7 @@ def employee():
         cursor.execute(countFemale)
         totalFemale = cursor.fetchone()
         db_conn.commit()
-    except Exception as e:
-        return str(e)
     finally:
-        
         cursor.close()
     return render_template('employee.html',employeeData=employeeData,totalEmployee=totalEmployee,totalMale=totalMale,totalFemale=totalFemale)
 
@@ -97,8 +91,7 @@ def viewEmployee(employeeId):
         cursor.execute(getEmployeeAttendanceSql,(employeeId))
         employeeAttendance = cursor.fetchall()
         db_conn.commit()
-    except Exception as e:
-        return str(e)
+
     finally:
         
         cursor.close()
@@ -116,10 +109,7 @@ def editEmployee(employeeId):
         cursor.execute(getEmployeeSql,(employeeId))
         employeeData = cursor.fetchone()
         db_conn.commit()
-    except Exception as e:
-        return str(e)
     finally:
-        
         cursor.close()
 
     return render_template('editEmployee.html',employeeData=employeeData)
@@ -131,10 +121,7 @@ def deleteEmployee(employeeId):
         cursor = db_conn.cursor()
         cursor.execute(deleteEmployeeSql,(employeeId))
         db_conn.commit()
-    except Exception as e:
-        return str(e)
     finally:
-        
         cursor.close()
     return render_template('deleteEmployee.html',employeeId=employeeId)
 
@@ -242,10 +229,7 @@ def editEmp():
             cursor.execute(updateEmployeeSql, (employeeId, firstName, lastName, gender, dateOfBirth,identityCardNumber, email, mobile, address, salary, department, hireDate,currentEmployeeId))
             emp_name = "" + firstName + " " + lastName
             db_conn.commit()
-        except Exception as e:
-            return str(e)
         finally:
-            
             cursor.close()
         return render_template('editEmpOutput.html', name=emp_name, employeeId=employeeId)
 
