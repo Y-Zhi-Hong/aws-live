@@ -34,9 +34,9 @@ def dashboard():
     countTodayOnLeaveEmployee ="SELECT count(*) FROM attendance WHERE date=%s AND on_leave IS NOT NULL"
     countMale="SELECT COUNT(*) FROM employee WHERE gender='Male'"
     countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
-    cursor = db_conn.cursor()
 
     try:
+        cursor = db_conn.cursor()
         cursor.execute(coutAllEmployee)
         totalEmployee = cursor.fetchone()
         cursor.execute(countTodayCheckInEmployee,todayDate)
@@ -51,7 +51,7 @@ def dashboard():
         totalFemale = cursor.fetchone()
         db_conn.commit()
     except:
-        print("Something went wrong")
+        return str("Something went wrong")
     finally:
         cursor.close()
 
@@ -78,7 +78,7 @@ def employee():
         totalFemale = cursor.fetchone()
         db_conn.commit()
     except:
-        print("Something went wrong")
+        return str("Something went wrong")
     finally:
         cursor.close()
     return render_template('employee.html',employeeData=employeeData,totalEmployee=totalEmployee,totalMale=totalMale,totalFemale=totalFemale)
@@ -99,7 +99,7 @@ def viewEmployee(employeeId):
         employeeAttendance = cursor.fetchall()
         db_conn.commit()
     except:
-        print("Something went wrong")
+        return str("Something went wrong")
     finally:
         
         cursor.close()
@@ -118,7 +118,7 @@ def editEmployee(employeeId):
         employeeData = cursor.fetchone()
         db_conn.commit()
     except:
-        print("Something went wrong")        
+        return str("Something went wrong")        
     finally:
         cursor.close()
 
@@ -132,7 +132,7 @@ def deleteEmployee(employeeId):
         cursor.execute(deleteEmployeeSql,(employeeId))
         db_conn.commit()
     except:
-        print("Something went wrong")
+        return str("Something went wrong")
     finally:
         cursor.close()
     return render_template('deleteEmployee.html',employeeId=employeeId)
