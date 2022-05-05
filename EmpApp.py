@@ -52,7 +52,7 @@ def dashboard():
     except Exception as e:
         return str(e)
     finally:
-        db_conn.close()
+        
         cursor.close()
 
     return render_template('index.html',totalEmployee=totalEmployee,totalEmployeeCheckIn=totalEmployeeCheckIn,
@@ -79,7 +79,7 @@ def employee():
     except Exception as e:
         return str(e)
     finally:
-        db_conn.close()
+        
         cursor.close()
     return render_template('employee.html',employeeData=employeeData,totalEmployee=totalEmployee,totalMale=totalMale,totalFemale=totalFemale)
 
@@ -100,7 +100,7 @@ def viewEmployee(employeeId):
     except Exception as e:
         return str(e)
     finally:
-        db_conn.close()
+        
         cursor.close()
     return render_template('employeeProfile.html',employeeData=employeeData,employeePayroll=employeePayroll,employeeAttendance=employeeAttendance)
 
@@ -119,7 +119,7 @@ def editEmployee(employeeId):
     except Exception as e:
         return str(e)
     finally:
-        db_conn.close()
+        
         cursor.close()
 
     return render_template('editEmployee.html',employeeData=employeeData)
@@ -134,7 +134,7 @@ def deleteEmployee(employeeId):
     except Exception as e:
         return str(e)
     finally:
-        db_conn.close()
+        
         cursor.close()
     return render_template('deleteEmployee.html',employeeId=employeeId)
 
@@ -208,7 +208,7 @@ def AddEmp():
 
     finally:
         print("running finally")
-        db_conn.close()
+        
         cursor.close()
 
     print("all modification done...")
@@ -245,7 +245,7 @@ def editEmp():
         except Exception as e:
             return str(e)
         finally:
-            db_conn.close()
+            
             cursor.close()
         return render_template('editEmpOutput.html', name=emp_name, employeeId=employeeId)
 
@@ -292,7 +292,7 @@ def editEmp():
 
     finally:
         print("running finally")
-        db_conn.close()
+        
         cursor.close()
 
     print("all modification done...")
