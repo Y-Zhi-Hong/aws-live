@@ -52,6 +52,7 @@ def dashboard():
     except Exception as e:
         return str(e)
     finally:
+        db_conn.close()
         cursor.close()
 
     return render_template('index.html',totalEmployee=totalEmployee,totalEmployeeCheckIn=totalEmployeeCheckIn,
@@ -78,6 +79,7 @@ def employee():
     except Exception as e:
         return str(e)
     finally:
+        db_conn.close()
         cursor.close()
     return render_template('employee.html',employeeData=employeeData,totalEmployee=totalEmployee,totalMale=totalMale,totalFemale=totalFemale)
 
@@ -98,6 +100,7 @@ def viewEmployee(employeeId):
     except Exception as e:
         return str(e)
     finally:
+        db_conn.close()
         cursor.close()
     return render_template('employeeProfile.html',employeeData=employeeData,employeePayroll=employeePayroll,employeeAttendance=employeeAttendance)
 
@@ -116,6 +119,7 @@ def editEmployee(employeeId):
     except Exception as e:
         return str(e)
     finally:
+        db_conn.close()
         cursor.close()
 
     return render_template('editEmployee.html',employeeData=employeeData)
@@ -130,6 +134,7 @@ def deleteEmployee(employeeId):
     except Exception as e:
         return str(e)
     finally:
+        db_conn.close()
         cursor.close()
     return render_template('deleteEmployee.html',employeeId=employeeId)
 
@@ -203,6 +208,7 @@ def AddEmp():
 
     finally:
         print("running finally")
+        db_conn.close()
         cursor.close()
 
     print("all modification done...")
@@ -231,11 +237,16 @@ def editEmp():
 
     if emp_image_file.filename == "":
         updateEmployeeSql = "UPDATE employee set id= %s,first_name= %s,last_name= %s,gender= %s,date_of_birth= %s,identity_card_number= %s,email= %s,mobile= %s,address= %s,salary= %s,department= %s,hire_date= %s WHERE id=%s"
-        cursor = db_conn.cursor()
-        cursor.execute(updateEmployeeSql, (employeeId, firstName, lastName, gender, dateOfBirth,identityCardNumber, email, mobile, address, salary, department, hireDate,currentEmployeeId))
-        emp_name = "" + firstName + " " + lastName
-        db_conn.commit()
-        cursor.close()
+        try:
+            cursor = db_conn.cursor()
+            cursor.execute(updateEmployeeSql, (employeeId, firstName, lastName, gender, dateOfBirth,identityCardNumber, email, mobile, address, salary, department, hireDate,currentEmployeeId))
+            emp_name = "" + firstName + " " + lastName
+            db_conn.commit()
+        except Exception as e:
+            return str(e)
+        finally:
+            db_conn.close()
+            cursor.close()
         return render_template('editEmpOutput.html', name=emp_name, employeeId=employeeId)
 
     else:
@@ -281,6 +292,7 @@ def editEmp():
 
     finally:
         print("running finally")
+        db_conn.close()
         cursor.close()
 
     print("all modification done...")
