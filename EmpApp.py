@@ -35,25 +35,25 @@ def dashboard():
     countMale="SELECT COUNT(*) FROM employee WHERE gender='Male'"
     countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
 
-    try:
-        cursor = db_conn.cursor()
-        cursor.execute(coutAllEmployee)
-        totalEmployee = cursor.fetchone()
-        cursor.execute(countTodayCheckInEmployee,todayDate)
-        totalEmployeeCheckIn = cursor.fetchone()
-        cursor.execute(countTodayCheckOutEmployee,todayDate)
-        totalEmployeeCheckOut = cursor.fetchone()
-        cursor.execute(countTodayOnLeaveEmployee,todayDate)
-        totalEmployeeOnLeave = cursor.fetchone()
-        cursor.execute(countMale)
-        totalMale = cursor.fetchone()
-        cursor.execute(countFemale)
-        totalFemale = cursor.fetchone()
-        db_conn.commit()
-    except:
-        return str("Something went wrong")
-    finally:
-        cursor.close()
+# try:
+    cursor = db_conn.cursor()
+    cursor.execute(coutAllEmployee)
+    totalEmployee = cursor.fetchone()
+    cursor.execute(countTodayCheckInEmployee,todayDate)
+    totalEmployeeCheckIn = cursor.fetchone()
+    cursor.execute(countTodayCheckOutEmployee,todayDate)
+    totalEmployeeCheckOut = cursor.fetchone()
+    cursor.execute(countTodayOnLeaveEmployee,todayDate)
+    totalEmployeeOnLeave = cursor.fetchone()
+    cursor.execute(countMale)
+    totalMale = cursor.fetchone()
+    cursor.execute(countFemale)
+    totalFemale = cursor.fetchone()
+    db_conn.commit()
+# except:
+#     return str("Something went wrong")
+# finally:
+    cursor.close()
 
     return render_template('index.html',totalEmployee=totalEmployee,totalEmployeeCheckIn=totalEmployeeCheckIn,
     totalEmployeeCheckOut=totalEmployeeCheckOut,totalEmployeeOnLeave=totalEmployeeOnLeave,todayDate=todayDate,
@@ -67,20 +67,20 @@ def employee():
     countFemale="SELECT COUNT(*) FROM employee WHERE gender='Female'"
     cursor = db_conn.cursor()
 
-    try:
-        cursor.execute(getAllEmployee)
-        employeeData = cursor.fetchall()
-        cursor.execute(coutAllEmployee)
-        totalEmployee = cursor.fetchone()
-        cursor.execute(countMale)
-        totalMale = cursor.fetchone()
-        cursor.execute(countFemale)
-        totalFemale = cursor.fetchone()
-        db_conn.commit()
-    except:
-        return str("Something went wrong")
-    finally:
-        cursor.close()
+# try:
+    cursor.execute(getAllEmployee)
+    employeeData = cursor.fetchall()
+    cursor.execute(coutAllEmployee)
+    totalEmployee = cursor.fetchone()
+    cursor.execute(countMale)
+    totalMale = cursor.fetchone()
+    cursor.execute(countFemale)
+    totalFemale = cursor.fetchone()
+    db_conn.commit()
+# except:
+#     return str("Something went wrong")
+# finally:
+    cursor.close()
     return render_template('employee.html',employeeData=employeeData,totalEmployee=totalEmployee,totalMale=totalMale,totalFemale=totalFemale)
 
 @app.route('/viewEmployee/<employeeId>')
@@ -90,19 +90,19 @@ def viewEmployee(employeeId):
     getEmployeeAttendanceSql="SELECT * FROM attendance WHERE employee_id=%s"
     cursor = db_conn.cursor()
 
-    try:
-        cursor.execute(getEmployeeSql,(employeeId))
-        employeeData = cursor.fetchone()
-        cursor.execute(getEmployeePayrollSql,(employeeId))
-        employeePayroll = cursor.fetchall()
-        cursor.execute(getEmployeeAttendanceSql,(employeeId))
-        employeeAttendance = cursor.fetchall()
-        db_conn.commit()
-    except:
-        return str("Something went wrong")
-    finally:
-        
-        cursor.close()
+# try:
+    cursor.execute(getEmployeeSql,(employeeId))
+    employeeData = cursor.fetchone()
+    cursor.execute(getEmployeePayrollSql,(employeeId))
+    employeePayroll = cursor.fetchall()
+    cursor.execute(getEmployeeAttendanceSql,(employeeId))
+    employeeAttendance = cursor.fetchall()
+    db_conn.commit()
+# except:
+#     return str("Something went wrong")
+# finally:
+    
+    cursor.close()
     return render_template('employeeProfile.html',employeeData=employeeData,employeePayroll=employeePayroll,employeeAttendance=employeeAttendance)
 
 @app.route("/addEmployee", methods=['GET', 'POST'])
@@ -113,14 +113,14 @@ def addEmployee():
 def editEmployee(employeeId):
     getEmployeeSql = "SELECT * FROM employee where id= %s"
     cursor = db_conn.cursor()
-    try:
-        cursor.execute(getEmployeeSql,(employeeId))
-        employeeData = cursor.fetchone()
-        db_conn.commit()
-    except:
-        return str("Something went wrong")        
-    finally:
-        cursor.close()
+# try:
+    cursor.execute(getEmployeeSql,(employeeId))
+    employeeData = cursor.fetchone()
+    db_conn.commit()
+# except:
+#     return str("Something went wrong")        
+# finally:
+    cursor.close()
 
     return render_template('editEmployee.html',employeeData=employeeData)
 
@@ -128,13 +128,13 @@ def editEmployee(employeeId):
 def deleteEmployee(employeeId):
     deleteEmployeeSql = "DELETE FROM employee where id= %s"
     cursor = db_conn.cursor()
-    try:
-        cursor.execute(deleteEmployeeSql,(employeeId))
-        db_conn.commit()
-    except:
-        return str("Something went wrong")
-    finally:
-        cursor.close()
+# try:
+    cursor.execute(deleteEmployeeSql,(employeeId))
+    db_conn.commit()
+# except:
+#     return str("Something went wrong")
+# finally:
+    cursor.close()
     return render_template('deleteEmployee.html',employeeId=employeeId)
 
 
