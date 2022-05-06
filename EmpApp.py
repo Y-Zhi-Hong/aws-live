@@ -62,7 +62,7 @@ def dashboard():
     totalMale = cursor.fetchone()
     cursor.execute(countFemale)
     totalFemale = cursor.fetchone()
-    # db_conn.commit()
+    connection.commit()
 # except:
 #     return str("Something went wrong")
 # finally:
@@ -91,7 +91,7 @@ def employee():
     totalMale = cursor.fetchone()
     cursor.execute(countFemale)
     totalFemale = cursor.fetchone()
-    # db_conn.commit()
+    connection.commit()
 # except:
 #     return str("Something went wrong")
 # finally:
@@ -113,7 +113,7 @@ def viewEmployee(employeeId):
     employeePayroll = cursor.fetchall()
     cursor.execute(getEmployeeAttendanceSql,(employeeId))
     employeeAttendance = cursor.fetchall()
-    # db_conn.commit()
+    connection.commit()
 # except:
 #     return str("Something went wrong")
 # finally:
@@ -133,7 +133,7 @@ def editEmployee(employeeId):
 # try:
     cursor.execute(getEmployeeSql,(employeeId))
     employeeData = cursor.fetchone()
-    # db_conn.commit()
+    connection.commit()
 # except:
 #     return str("Something went wrong")        
 # finally:
@@ -148,7 +148,7 @@ def deleteEmployee(employeeId):
     cursor = connection.cursor()
 # try:
     cursor.execute(deleteEmployeeSql,(employeeId))
-    # db_conn.commit()
+    connection.commit()
 # except:
 #     return str("Something went wrong")
 # finally:
@@ -192,7 +192,7 @@ def AddEmp():
         cursor.execute(insert_sql, (employeeId, firstName, lastName, gender, dateOfBirth, 
         identityCardNumber, email, mobile, address, salary, department, emp_image_file, hireDate))
         # cursor.execute(insert_sql)
-        # db_conn.commit()
+        connection.commit()
         emp_name = "" + firstName + " " + lastName
         # Uplaod image file in S3 #
         emp_image_file_name_in_s3 = "emp-id-" + str(employeeId) + "_image_file"+file_extension
@@ -216,7 +216,7 @@ def AddEmp():
             update_sql = "UPDATE employee set image = %s WHERE id=%s"
             cursor = connection.cursor()
             cursor.execute(update_sql, (object_url,employeeId))
-            # db_conn.commit()
+            connection.commit()
 
 
         except Exception as e:
@@ -261,7 +261,7 @@ def editEmp():
         try:
             cursor.execute(updateEmployeeSql, (employeeId, firstName, lastName, gender, dateOfBirth,identityCardNumber, email, mobile, address, salary, department, hireDate,currentEmployeeId))
             emp_name = "" + firstName + " " + lastName
-            # db_conn.commit()
+            connection.commit()
         finally:
             connection.close()
         return render_template('editEmpOutput.html', name=emp_name, employeeId=employeeId)
@@ -275,7 +275,7 @@ def editEmp():
         cursor.execute(updateEmployeeSql, (employeeId, firstName, lastName, gender, dateOfBirth, 
         identityCardNumber, email, mobile, address, salary, department, emp_image_file, hireDate,currentEmployeeId))
         # cursor.execute(insert_sql)
-        # db_conn.commit()
+        connection.commit()
         emp_name = "" + firstName + " " + lastName
         # Uplaod image file in S3 #
         emp_image_file_name_in_s3 = "emp-id-" + str(employeeId) + "_image_file"+ file_extension
@@ -299,7 +299,7 @@ def editEmp():
             update_sql = "UPDATE employee set image = %s WHERE id=%s"
             cursor = connection.cursor()
             cursor.execute(update_sql, (object_url,employeeId))
-            # db_conn.commit()
+            connection.commit()
 
 
         except Exception as e:
